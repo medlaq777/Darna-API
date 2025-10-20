@@ -22,8 +22,11 @@ DB.getInstance();
 app.use((err: any, res: express.Response) => {
   console.error(err);
   const status: number = err.status || 500;
-  res.status(status).json({ message: err })
-})
+  res.status(status).json({
+    message: err.message || 'Internal Server Error',
+    status: status
+  });
+});
 app.listen(port, () => {
   console.log(`http://localhost:${port}`);
 })
