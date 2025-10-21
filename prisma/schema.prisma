@@ -12,15 +12,15 @@ model User {
   email         String   @unique
   password      String?
   name          String?
-  role          String   @default("PARTICULIER")
+  role          String   @default("user")
   emailVerified Boolean  @default(false)
   twoFaEnabled  Boolean  @default(false)
   createdAt     DateTime @default(now())
   updatedAt     DateTime @updatedAt
-  otps          OTP[]
+  otps          Otp[]
 }
 
-model OTP {
+model Otp {
   id        String   @id @default(auto()) @map("_id") @db.ObjectId
   Users     User?    @relation(fields: [usersId], references: [id])
   usersId   String?  @db.ObjectId
