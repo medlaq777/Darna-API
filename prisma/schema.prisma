@@ -1,6 +1,5 @@
 generator client {
   provider = "prisma-client-js"
-  output   = "../src/generated/prisma"
 }
 
 datasource db {
@@ -9,12 +8,23 @@ datasource db {
 }
 
 model Users {
-  id           String    @id @default(auto()) @map("_id") @db.ObjectId
-  email        String    @unique
-  name         String?
-  password     String
-  isVerified   Boolean   @default(false)
-  otpCode      String?
-  otpExpiresAt DateTime?
-  createdAt    DateTime  @default(now())
+  id            String   @id @default(auto()) @map("_id") @db.ObjectId
+  email         String   @unique
+  password      String?
+  name          String?
+  emailVerified Boolean  @default(false)
+  twoFaEnabled  Boolean  @default(false)
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+  otps          OTP[]
+}
+
+model OTP {
+  id        String   @id @default(auto()) @map("_id") @db.ObjectId
+  Users     Users?   @relation(fields: [usersId], references: [id])
+  usersId   String?  @db.ObjectId
+  code      String
+  type      String
+  expiresAt DateTime
+  used      Boolean  @default(false)
 }
