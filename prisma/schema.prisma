@@ -12,6 +12,7 @@ model Users {
   email         String   @unique
   password      String?
   name          String?
+  role          String   @default("PARTICULIER")
   emailVerified Boolean  @default(false)
   twoFaEnabled  Boolean  @default(false)
   createdAt     DateTime @default(now())
