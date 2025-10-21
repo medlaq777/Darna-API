@@ -1,6 +1,5 @@
 import authService from "../../modules/auth/auth.service.ts";
 import prisma from "../../database/prisma.ts";
-import { verify } from "crypto";
 
 export const resolvers = {
   Query: {
