@@ -1,6 +1,5 @@
 import prisma from "../../database/prisma.ts";
 import HashProcess from "../../utils/hash.ts";
-import JWT from "../../utils/jwt.ts";
 import crypto from "crypto";
 import { addMinutes } from "date-fns";
 import MailService from "../../services/mail.service.ts"
