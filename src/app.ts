@@ -27,6 +27,7 @@ app.use((err: any, res: express.Response) => {
     status: status
   });
 });
+
 app.listen(port, () => {
   console.log(`http://localhost:${port}`);
 })
