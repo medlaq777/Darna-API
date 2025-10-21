@@ -61,3 +61,6 @@ class AuthService {
     return { success: true }
   }
 }
+
+
+export default new AuthService();
