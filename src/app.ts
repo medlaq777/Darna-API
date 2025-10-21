@@ -1,7 +1,7 @@
 import 'dotenv';
 import express from 'express';
 import cors from "cors"
-import Config from "./config/config.ts"
+import Config from "./config/index.ts"
 import DB from './config/db.ts';
 
 const app = express();
