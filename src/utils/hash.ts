@@ -1,10 +1,14 @@
 import bcrypt from "bcryptjs";
 
-export const hash = async (plain: string) => {
-  const salt = await bcrypt.genSalt(12);
-  return bcrypt.hash(plain, salt);
-};
+class HashProcess {
+  async hash(plain: string) {
+    const salt = await bcrypt.genSalt(12);
+    return bcrypt.hash(plain, salt)
+  }
 
-export const compare = async (plain: string, hashed: string) => {
-  return bcrypt.compare(plain, hashed);
-};
+  async compare(plain: string, hashed: string) {
+    return bcrypt.compare(plain, hashed)
+  }
+}
+
+export default new HashProcess();
