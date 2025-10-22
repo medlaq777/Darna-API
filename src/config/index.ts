@@ -1,11 +1,9 @@
 import dotenv from "dotenv";
 dotenv.config();
-export default {
-  port: process.env.PORT || 3000,
-  jwtSecret: process.env.JWT_SECRET,
-  jwtExpiresIn: process.env.JWT_EXPIRES_IN,
-  smtp: {
-    user: process.env.MAIL_USER!,
-    pass: process.env.MAIL_PASS!,
-  },
+export const config = {
+  PORT: process.env.PORT || 3000,
+  JWTSECRET: process.env.JWT_SECRET,
+  JWTEXPIRESIN: process.env.JWT_EXPIRES_IN,
+  EMAIL_USER: process.env.MAIL_USER,
+  EMAIL_PASS: process.env.MAIL_PASS,
 };

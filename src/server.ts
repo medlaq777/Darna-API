@@ -11,13 +11,11 @@ const port = Config.port;
 
 const corsOptions = {
   origin: ["http://localhost:3000", "http://localhost:3000"],
-  methods: ["GET", "POST", "PUT", "DELETE", "PATCH", "OPTIONS"],
-  allowHeader: ["Content-Type", "Authorization"],
   credentials: true,
+
 };
 app.disable("x-powered-by");
 app.options("/api", cors(corsOptions));
-app.disable("x-powred-by");
 
 app.use(
   (
