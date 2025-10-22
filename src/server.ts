@@ -1,13 +1,13 @@
 import "dotenv";
 import express from "express";
 import cors from "cors";
-import Config from "./config/index.ts";
+import { config } from "./config/index.ts";
 import { ApolloServer } from "@apollo/server";
 import { expressMiddleware } from "@as-integrations/express4";
 import { graphqlSchema } from "./graphql/index.ts";
 
 const app = express();
-const port = Config.port;
+const port = config.PORT;
 
 const corsOptions = {
   origin: ["http://localhost:3000", "http://localhost:3000"],
@@ -15,7 +15,10 @@ const corsOptions = {
 
 };
 app.disable("x-powered-by");
-app.options("/api", cors(corsOptions));
+
+// Add JSON and CORS middleware
+app.use(express.json());
+app.use(cors(corsOptions));
 
 app.use(
   (
@@ -37,7 +40,7 @@ async function startServer() {
   const server = new ApolloServer({ schema: graphqlSchema });
 
   await server.start();
-  app.use("/graphql", expressMiddleware(server));
+  app.use("/graphql", cors(corsOptions), express.json(), expressMiddleware(server));
 
   app.listen({ port: port }, () => {
     console.log(`🚀 Server ready at http://localhost:${port}/graphql`);

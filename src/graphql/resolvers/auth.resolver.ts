@@ -10,7 +10,8 @@ export const resolvers = {
     },
   },
   Mutation: {
-    register: async (_: any, { email, password, name }: any) => {
+    register: async (_: any, { data }: any) => {
+      const { email, password, name } = data;
       const result = await authService.register(email, password, name);
       return { message: result.message };
     },

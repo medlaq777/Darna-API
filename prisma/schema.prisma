@@ -8,22 +8,21 @@ datasource db {
 }
 
 model User {
-  id           String     @id @default(auto()) @map("_id") @db.ObjectId
-  email        String     @unique
+  id           String   @id @default(auto()) @map("_id") @db.ObjectId
+  email        String
   password     String?
   name         String?
-  role         String     @default("user")
-  isVerified   Boolean    @default(false)
-  twoFaEnabled Boolean    @default(false)
-  createdAt    DateTime   @default(now())
-  updatedAt    DateTime   @updatedAt
-  otps         Otp[]
-  properties   Property[]
+  role         String   @default("user")
+  isVerified   Boolean  @default(false)
+  twoFaEnabled Boolean  @default(false)
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+
+  @@index([email])
 }
 
 model Otp {
   id        String   @id @default(auto()) @map("_id") @db.ObjectId
-  Users     User?    @relation(fields: [usersId], references: [id])
   usersId   String?  @db.ObjectId
   code      String
   type      String
@@ -41,21 +40,21 @@ type Address {
 }
 
 model Media {
-  id         String    @id @default(auto()) @map("_id") @db.ObjectId
+  id         String   @id @default(auto()) @map("_id") @db.ObjectId
   url        String
   thumbnail  String?
   mimeType   String
   size       Int?
-  uploadedAt DateTime  @default(now())
-  ownerId    String    @db.ObjectId
-  property   Property? @relation("PropertyMedia", fields: [propertyId], references: [id])
-  propertyId String?   @db.ObjectId
+  uploadedAt DateTime @default(now())
+  ownerId    String   @db.ObjectId
+  propertyId String?  @db.ObjectId
+
+  @@index([propertyId])
 }
 
 model Property {
   id            String    @id @default(auto()) @map("_id") @db.ObjectId
   ownerId       String    @db.ObjectId
-  owner         User      @relation(fields: [ownerId], references: [id])
   title         String
   description   String?
   transaction   String
@@ -72,8 +71,10 @@ model Property {
   rules         String?
   energyRating  String?
   status        String    @default("DRAFT")
-  slug          String    @unique
-  medias        Media[]   @relation("PropertyMedia")
+  slug          String
   createdAt     DateTime  @default(now())
   updatedAt     DateTime  @updatedAt
+
+  @@index([ownerId])
+  @@index([slug])
 }
