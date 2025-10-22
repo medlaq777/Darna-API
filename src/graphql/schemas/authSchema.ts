@@ -16,6 +16,11 @@ export const authTypeDefs = `
     name: String
   }
 
+  input LoginInput {
+    email: String!
+    password: String!
+  }
+
   type AuthResponse {
     id: ID
     username: String
@@ -33,7 +38,7 @@ export const authTypeDefs = `
   type Mutation {
     register(data: RegisterInput!): AuthResponse!
     verifyEmail(email: String!, code: String!): AuthResponse!
-    login(email: String!, password: String!): AuthResponse!
+    login(data: LoginInput!): AuthResponse!
     verify2FA(pendingToken: String!, code: String!): AuthResponse!
     enable2FA: AuthResponse!
   }

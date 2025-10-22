@@ -19,7 +19,8 @@ export const resolvers = {
       await authService.verifyEmail(email, code);
       return { message: "Email Verified" };
     },
-    login: async (_: any, { email, password }: any) => {
+    login: async (_: any, { data }: any) => {
+      const { email, password } = data;
       const result = await authService.login(email, password);
       return result
     },
