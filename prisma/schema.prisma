@@ -7,6 +7,8 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
+
+
 model User {
   id            String   @id @default(auto()) @map("_id") @db.ObjectId
   email         String   @unique
@@ -18,6 +20,7 @@ model User {
   createdAt     DateTime @default(now())
   updatedAt     DateTime @updatedAt
   otps          Otp[]
+  properties    Property[]
 }
 
 model Otp {
@@ -28,4 +31,54 @@ model Otp {
   type      String
   expiresAt DateTime
   used      Boolean  @default(false)
+}
+
+
+
+type Address {
+  street   String?
+  city     String?
+  postal   String?
+  country  String?
+  lat      Float?
+  lng      Float?
+}
+
+model Media {
+  id         String   @id @default(auto()) @map("_id") @db.ObjectId
+  url        String
+  thumbnail  String?      // optional thumbnail URL
+  mimeType   String
+  size       Int?
+  uploadedAt DateTime @default(now())
+  ownerId    String   @db.ObjectId
+  property   Property? @relation("PropertyMedia", fields: [propertyId], references: [id])
+  propertyId String?  @db.ObjectId
+}
+
+
+model Property {
+  id             String    @id @default(auto()) @map("_id") @db.ObjectId
+  ownerId        String    @db.ObjectId
+  owner          User      @relation(fields: [ownerId], references: [id])
+  title          String
+  description    String?
+  transaction    String    // sale | rent_daily | rent_monthly | rent_long
+  price          Float?
+  pricePerDay    Float?
+  availableFrom  DateTime?
+  availableTo    DateTime?
+  address        Address?
+  surface        Float?
+  rooms          Int?
+  bedrooms       Int?
+  bathrooms      Int?
+  amenities      String[]  // e.g. ["wifi", "parking"]
+  rules          String?
+  energyRating   String?
+  status         String    @default("DRAFT") // DRAFT | PUBLISHED | ARCHIVED
+  slug           String    @unique
+  medias         Media[]   @relation("PropertyMedia")
+  createdAt      DateTime  @default(now())
+  updatedAt      DateTime  @updatedAt
 }

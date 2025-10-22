@@ -22,9 +22,12 @@
   "homepage": "https://github.com/medlaq777/Darna-API#readme",
   "dependencies": {
     "@apollo/server": "^5.0.0",
+    "@as-integrations/express4": "^1.1.2",
+    "@graphql-tools/schema": "^10.0.25",
     "@prisma/client": "^6.17.1",
     "@types/nodemailer": "^7.0.2",
     "bcryptjs": "^3.0.2",
+    "cors": "^2.8.5",
     "date-fns": "^4.1.0",
     "dotenv": "^17.2.3",
     "express": "^4.21.2",
@@ -35,6 +38,7 @@
   },
   "devDependencies": {
     "@types/bcryptjs": "^2.4.6",
+    "@types/cors": "^2.8.19",
     "@types/express": "^5.0.3",
     "@types/jsonwebtoken": "^9.0.10",
     "@types/node": "^24.9.1",
