@@ -1,6 +1,7 @@
 import dotenv from "dotenv";
 dotenv.config();
-export const config = {
+let Config = null;
+export default Config = {
   PORT: process.env.PORT || 3000,
   JWTSECRET: process.env.JWT_SECRET,
   JWTEXPIRESIN: process.env.JWT_EXPIRES_IN,
