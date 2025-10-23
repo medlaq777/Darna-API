@@ -21,7 +21,7 @@ export const authTypeDefs = `
     password: String!
   }
 
-  input verifyInput {
+  input Verify2FAInput {
     pendingToken: String!
     code: String!
   }
@@ -44,7 +44,7 @@ export const authTypeDefs = `
     register(data: RegisterInput!): AuthResponse!
     verifyEmail(email: String!, code: String!): AuthResponse!
     login(data: LoginInput!): AuthResponse!
-    verify2FA(data: verifyInput!): AuthResponse!
+    verify2FA(data: Verify2FAInput!): AuthResponse!
     enable2FA: AuthResponse!
   }
 `;
