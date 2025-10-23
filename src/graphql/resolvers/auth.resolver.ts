@@ -24,7 +24,8 @@ export const resolvers = {
       const result = await authService.login(email, password);
       return result
     },
-    verify2FA: async (_: any, { pendingToken, code }: any) => {
+    verify2FA: async (_: any, { data }: any) => {
+      const { pendingToken, code } = data;
       const result = await authService.verify2FA(pendingToken, code);
       return result;
     },

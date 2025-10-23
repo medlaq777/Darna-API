@@ -5,6 +5,7 @@ import { config } from "./config/index.ts";
 import { ApolloServer } from "@apollo/server";
 import { expressMiddleware } from "@as-integrations/express4";
 import { graphqlSchema } from "./graphql/index.ts";
+import { getUserFromAuthHeader } from "./middlewares/auth.middleware.ts";
 
 const app = express();
 const port = config.PORT;
@@ -40,7 +41,17 @@ async function startServer() {
   const server = new ApolloServer({ schema: graphqlSchema });
 
   await server.start();
-  app.use("/graphql", cors(corsOptions), express.json(), expressMiddleware(server));
+  app.use(
+    "/graphql",
+    cors(corsOptions),
+    express.json(),
+    expressMiddleware(server, {
+      context: async ({ req }) => {
+        const user = getUserFromAuthHeader(req.headers.authorization);
+        return { user };
+      },
+    })
+  );
 
   app.listen({ port: port }, () => {
     console.log(`🚀 Server ready at http://localhost:${port}/graphql`);
