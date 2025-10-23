@@ -16,8 +16,8 @@ export const resolvers = {
       return { message: result.message };
     },
     verifyEmail: async (_: any, { email, code }: any) => {
-      await authService.verifyEmail(email, code);
-      return { message: "Email Verified" };
+      const result = await authService.verifyEmail(email, code);
+      return result;
     },
     login: async (_: any, { data }: any) => {
       const { email, password } = data;
@@ -31,7 +31,7 @@ export const resolvers = {
     },
     enable2FA: async (_: any, __: any, context: any) => {
       const userId = context.user?.sub;
-      if (!userId) throw new Error("2FA Require");
+      if (!userId) throw new Error("Unauthorized");
       const result = await authService.enable2FA(userId);
       return { message: result.message || "2FA Activited" };
     },

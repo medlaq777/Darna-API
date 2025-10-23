@@ -16,7 +16,8 @@ class JWT {
     if (!expires) {
       throw new Error("JWT expiration is not defined in environment variables.");
     }
-    return jwt.sign(payload, this.secret, { expiresIn: parseInt(expires) });
+    const options: jwt.SignOptions = { expiresIn: expires as any };
+    return jwt.sign(payload as any, this.secret as jwt.Secret, options);
   }
 
   static verify(token: string): object | string {

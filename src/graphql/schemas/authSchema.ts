@@ -21,6 +21,11 @@ export const authTypeDefs = `
     password: String!
   }
 
+  input verifyInput {
+    pendingToken: String!
+    code: String!
+  }
+
   type AuthResponse {
     id: ID
     username: String
@@ -39,7 +44,7 @@ export const authTypeDefs = `
     register(data: RegisterInput!): AuthResponse!
     verifyEmail(email: String!, code: String!): AuthResponse!
     login(data: LoginInput!): AuthResponse!
-    verify2FA(pendingToken: String!, code: String!): AuthResponse!
+    verify2FA(data: verifyInput!): AuthResponse!
     enable2FA: AuthResponse!
   }
 `;

@@ -11,13 +11,15 @@ const app = express();
 const port = config.PORT;
 
 const corsOptions = {
-  origin: ["http://localhost:3000", "http://localhost:3000"],
+  origin: [
+    "http://localhost:3000",
+    "http://localhost:5173",
+    "https://studio.apollographql.com",
+    "https://embeddable-sandbox.cdn.apollographql.com",
+  ],
   credentials: true,
-
 };
 app.disable("x-powered-by");
-
-// Add JSON and CORS middleware
 app.use(express.json());
 app.use(cors(corsOptions));
 
@@ -47,7 +49,7 @@ async function startServer() {
     express.json(),
     expressMiddleware(server, {
       context: async ({ req }) => {
-        const user = getUserFromAuthHeader(req.headers.authorization);
+        const user = getUserFromAuthHeader(req.headers.authorization, req.headers as any);
         return { user };
       },
     })

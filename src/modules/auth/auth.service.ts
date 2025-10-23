@@ -8,8 +8,7 @@ import MailService from "../../services/mail.service.ts"
 
 
 const OTP_TTL_MIN = 10;
-type OTPType = "EMAIL_VERIFY" | "2FA" | "2FA_SETUP";
-
+type OTPType = "EMAIL_VERIFY" | "2FA";
 class AuthService {
   private generateOTP(): string {
     return crypto.randomBytes(3).toString("hex").toUpperCase();
@@ -149,48 +148,9 @@ class AuthService {
     return { token };
   }
 
-  // Start 2FA setup: send OTP and return a pending setup token
   async enable2FA(userId: string) {
-    const user = await prisma.user.findUnique({ where: { id: userId } });
-    if (!user) throw new Error("User Not Found");
-    if (!user.isVerified) throw new Error("Email not verified");
-    if (user.twoFaEnabled) return { success: true, message: "2FA already enabled" };
-
-    const code = this.generateOTP();
-    const expiresAt = addMinutes(new Date(), OTP_TTL_MIN);
-
-    await prisma.otp.create({
-      data: { usersId: userId, code, type: "2FA_SETUP", expiresAt },
-    });
-
-    await MailService.sendOtp(user.email, code, "2FA");
-
-    const pendingToken = JWT.sign({ sub: userId, pending2FASetup: true }, { pending: true });
-    return { success: true, message: "2FA", pendingToken };
-  }
-
-  // Confirm 2FA setup: verify code + pending setup token, then enable
-  async confirmEnable2FA(pendingToken: string, code: string) {
-    let payload: any;
-    try {
-      payload = JWT.verify(pendingToken);
-    } catch {
-      throw new Error("Expired Token or invalide");
-    }
-    if (!payload || !payload.pending2FASetup || !payload.sub) throw new Error("Invalide Token");
-
-    const userId = payload.sub as string;
-
-    const otp = await prisma.otp.findFirst({
-      where: { usersId: userId, code, type: "2FA_SETUP", used: false, expiresAt: { gt: new Date() } },
-      orderBy: { expiresAt: "desc" },
-    });
-    if (!otp) throw new Error("2FA Invalide or expired");
-
-    await prisma.otp.update({ where: { id: otp.id }, data: { used: true } });
     await prisma.user.update({ where: { id: userId }, data: { twoFaEnabled: true } });
-
-    return { success: true, message: "2FA Enabled" };
+    return { success: true, message: "2FA Verified" };
   }
 }
 
