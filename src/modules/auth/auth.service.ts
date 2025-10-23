@@ -3,7 +3,8 @@ import HashProcess from "../../utils/hash.ts";
 import JWT from "../../utils/jwt.ts";
 import crypto from "crypto";
 import { addMinutes } from "date-fns";
-import MailService from "../../services/mail.service.ts"
+import MailService from "../../services/mail.service.ts";
+import { type Profile } from "passport-google-oauth20";
 
 
 
@@ -151,6 +152,42 @@ class AuthService {
   async enable2FA(userId: string) {
     await prisma.user.update({ where: { id: userId }, data: { twoFaEnabled: true } });
     return { success: true, message: "2FA Verified" };
+  }
+
+  async googleAuthCallback(profile: Profile) {
+    const email = profile.emails?.[0]?.value?.toLowerCase();
+    const name = profile.displayName;
+    const googleId = profile.id;
+    if (!email) {
+      throw new Error("Email Not provided by Google");
+    }
+
+    const user = await prisma.user.findFirst({
+
+      where: ({ OR: [{ googleId: googleId }, { email: email }] } as any),
+    });
+
+    if (!user) {
+
+      const created = await prisma.user.create({
+        data: ({ email, name, googleId, isVerified: true } as any),
+      });
+      const token = JWT.sign({ sub: created.id, email: created.email });
+      return { user: created, token };
+    } else {
+
+      const updated = await prisma.user.update({
+        where: { id: user.id },
+        data: ({
+          googleId: googleId,
+          isVerified: true,
+
+          ...(name && !user.name ? { name } : {}),
+        } as any),
+      });
+      const token = JWT.sign({ sub: updated.id, email: updated.email });
+      return { user: updated, token };
+    }
   }
 }
 

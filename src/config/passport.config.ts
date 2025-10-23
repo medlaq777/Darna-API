@@ -1,7 +1,7 @@
 import passport from 'passport';
 import { Strategy as GoogleStrategy, type VerifyCallback } from 'passport-google-oauth20';
 import Config from '../config/index.ts';
-import { googleAuthCallback } from '../modules/auth/auth.service.ts';
+import authService from '../modules/auth/auth.service.ts';
 
 passport.use(new GoogleStrategy({
   clientID: Config.GOOGLE_CLIENT_ID!,
@@ -11,7 +11,7 @@ passport.use(new GoogleStrategy({
 },
   async (accessToken: string, refreshToken: string, profile: any, done: VerifyCallback) => {
     try {
-      const user = await googleAuthCallback(profile);
+      const user = await authService.googleAuthCallback(profile);
       done(null, user);
     } catch (e) {
       done(e as Error);

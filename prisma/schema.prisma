@@ -15,10 +15,12 @@ model User {
   role         String   @default("user")
   isVerified   Boolean  @default(false)
   twoFaEnabled Boolean  @default(false)
+  googleId     String?
   createdAt    DateTime @default(now())
   updatedAt    DateTime @updatedAt
 
   @@index([email])
+  @@index([googleId])
 }
 
 model Otp {

@@ -1,12 +1,14 @@
 import jwt from "jsonwebtoken";
+import Config from "../config/index.ts";
 import dotenv from "dotenv";
+
 dotenv.config();
 
 
 class JWT {
-  private static secret = process.env.JWT_SECRET;
-  private static expiresIn = process.env.JWT_EXPIRES_IN;
-  private static pendingExpiresIn = process.env.JWT_PENDING_EXPIRES_IN;
+  private static secret = Config.JWTSECRET;
+  private static expiresIn = Config.JWTEXPIRESIN;
+  private static pendingExpiresIn = Config.JWTPENDINGEXPIRESIN;
 
   static sign(payload: object, opts?: { pending?: boolean }): string {
     const expires = opts?.pending ? this.pendingExpiresIn : this.expiresIn;

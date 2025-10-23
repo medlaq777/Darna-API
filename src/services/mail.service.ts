@@ -1,4 +1,5 @@
 import nodemailer, { type Transporter } from "nodemailer";
+import Config from "../config/index.ts";
 import dotenv from "dotenv";
 dotenv.config();
 
@@ -7,8 +8,8 @@ class MailService {
   private user: string;
 
   constructor() {
-    this.user = process.env.MAIL_USER || "";
-    const pass = process.env.MAIL_PASS || "";
+    this.user = Config.EMAIL_USER || "";
+    const pass = Config.EMAIL_PASS || "";
     this.transporter = nodemailer.createTransport({
       service: "gmail",
       auth: {

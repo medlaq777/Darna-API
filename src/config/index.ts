@@ -5,6 +5,7 @@ export default Config = {
   PORT: process.env.PORT || 3000,
   JWTSECRET: process.env.JWT_SECRET,
   JWTEXPIRESIN: process.env.JWT_EXPIRES_IN,
+  JWTPENDINGEXPIRESIN: process.env.JWT_PENDING_EXPIRES_IN,
   EMAIL_USER: process.env.MAIL_USER,
   EMAIL_PASS: process.env.MAIL_PASS,
   GOOGLE_CLIENT_ID: process.env.GOOGLE_CLIENT_ID,

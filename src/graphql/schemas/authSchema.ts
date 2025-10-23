@@ -6,6 +6,7 @@ export const authTypeDefs = `
     role: String!
     isVerified: Boolean!
     twoFaEnabled: Boolean!
+    googleId:String
     createdAt: String!
     updatedAt: String!
   }

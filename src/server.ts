@@ -1,14 +1,13 @@
-import "dotenv";
 import express from "express";
 import cors from "cors";
-import { config } from "./config/index.ts";
+import Config from "./config/index.ts";
 import { ApolloServer } from "@apollo/server";
 import { expressMiddleware } from "@as-integrations/express4";
 import { graphqlSchema } from "./graphql/index.ts";
 import { getUserFromAuthHeader } from "./middlewares/auth.middleware.ts";
 
 const app = express();
-const port = config.PORT;
+const port = Config.PORT;
 
 const corsOptions = {
   origin: [
