@@ -5,6 +5,7 @@ import { ApolloServer } from "@apollo/server";
 import { expressMiddleware } from "@as-integrations/express4";
 import { graphqlSchema } from "./graphql/index.ts";
 import { getUserFromAuthHeader } from "./middlewares/auth.middleware.ts";
+import passport from "./config/passport.config.ts";
 
 const app = express();
 const port = Config.PORT;
