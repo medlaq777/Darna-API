@@ -2,6 +2,7 @@ import dotenv from "dotenv";
 dotenv.config();
 let Config = null;
 export default Config = {
+  FRONTEND_URL: process.env.FRONTEND_URL,
   PORT: process.env.PORT || 3000,
   JWTSECRET: process.env.JWT_SECRET,
   JWTEXPIRESIN: process.env.JWT_EXPIRES_IN,
