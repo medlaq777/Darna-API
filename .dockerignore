@@ -1,0 +1,13 @@
+# Ignore the node_modules folder from your host machine
+node_modules
+
+# Ignore the built TypeScript output
+dist
+
+# Ignore the environment file
+.env
+
+# --- PRISMA FIX ---
+# Explicitly ignore the host's generated Prisma client.
+# This ensures the container uses its own.
+node_modules/.prisma/client
