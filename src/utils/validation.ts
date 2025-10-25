@@ -1,10 +1,10 @@
 import { z } from "zod";
 
 export const MediaInputSchema = z.object({
-  url: z.string().url().nullable(),
+  url: z.string().nullable(),
   thumbnail: z.string().url().optional().nullable(),
   mimeType: z.string().nullable(),
-  size: z.number().int().optional().nullable(),
+  size: z.number().int().nullable(),
 });
 
 export const AddressInputSchema = z.object({

@@ -1,6 +1,7 @@
+
 export const propertyTypeDefs = `
   type Query {
-    _: Boolean
+    _empty: Boolean
   }
 enum TransactionType {
     sale
@@ -95,7 +96,14 @@ enum TransactionType {
     updatedAt: String!
   }
 
+   type SignedUploadResponse {
+    # The temporary URL to send the PUT request to
+    uploadUrl: String!
+    # The permanent, clean URL you will save in your database
+    accessUrl: String!
+  }
   type Mutation {
     createProperty(data: CreatePropertyInput!): Property!
+    getUploadUrl(filename:String): SignedUploadResponse!
   }
-`;
+  `;
